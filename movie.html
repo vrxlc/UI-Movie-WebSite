@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streaming Platform</title>
+  <link rel="stylesheet" href="movie.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="navbar">
+      <div class="nav-left">
+        <div class="search-container">
+          <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search movies" class="search-input">
+        </div>
+        
+        <div class="nav-menu">
+          <button class="nav-item active">Movies</button>
+          <button class="nav-item">TV Series</button>
+          <button class="nav-item">Animation</button>
+          <button class="nav-item">Mystery</button>
+          <button class="nav-item">More</button>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div class="notification">
+          <svg xmlns="http://www.w3.org/2000/svg" class="bell-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span class="notification-dot"></span>
+        </div>
+        
+        <div class="profile">
+          <img src="https://i.pinimg.com/236x/e5/d1/07/e5d107f12d91740f01a6b378c4f6caad.jpg" alt="Profile" class="profile-image">
+          <span class="profile-name">Vera Woo</span>
+        </div>
+      </div>
+    </nav>
+
+    <main class="content">
+
+      <div class="main-content">
+        <div class="featured-movie">
+          <img src="https://w0.peakpx.com/wallpaper/147/66/HD-wallpaper-2021-the-batman.jpg" alt="Spider-Man: Across the Spider-Verse" class="featured-image">
+          <div class="featured-overlay">
+            <div class="featured-info">
+              <div class="tags">
+                <span class="tag">Action</span>
+                <span class="tag">Adventure</span>
+              </div>
+              
+              <h1>Batman v Superman: Dawn of Justice</h1>
+              <p>Billionaire Bruce Wayne believes that Superman is a threat to humanity as his power goes unchecked.</p>
+              
+              <div class="featured-buttons">
+                <a href="https://ww25.soap2day.day/batman-v-superman-dawn-of-justice-soap2day/" target="_blank">
+                  <button class="btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Watch
+                  </button>
+                </a>                
+                <button class="btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download
+                </button>
+                <button class="btn-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="movie-recommendations">
+          <div class="section-header">
+            <h3>You might like</h3>
+            <button class="see-all">See all</button>
+          </div>
+          <div class="movie-grid" id="movieGrid">
+            <!-- Movie cards will be inserted here by JavaScript -->
+          </div>
+        </section>
+      </div>
+      <div class="sidebar">
+        <section class="new-trailer">
+          <div class="section-header">
+            <h3>New Trailer</h3>
+            <span class="sort-text">Sort by: Today</span>
+          </div>
+
+          <div class="trailer-list" id="trailerList">
+           <!-- JavaScript -->
+          </div>
+        </section>
+
+        <section class="continue-watching">
+          <h3>Continue Watching</h3>
+          <div class="watching-list" id="watchingList">
+            <!-- Continue watching items will be inserted here by JavaScript -->
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div id="videoPlayerModal" class="video-player-modal">
+    <div class="video-player-content">
+      <span class="close">&times;</span>
+      <div class="video-container">
+        <iframe id="videoPlayer" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+  <div id="trailerList"></div>
+
+  <div id="videoPlayerModal" class="video-player-modal">
+    <span class="close">&times;</span>
+    <iframe id="videoPlayer" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    // Data
+    const trailers = [
+  {
+    id: 1,
+    title: 'The Vikings',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS541jkDzxcBPajHhTHvBR1oIIuEH9RlzxlOA&s',
+    videoUrl: 'https://www.youtube.com/embed/Yi4YnwFT7Gk'
+  },
+  {
+    id: 2,
+    title: 'Manifest',
+    image: 'https://resizing.flixster.com/xvZtZKpB-FnQmICT1DPfXJ3kCy0=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p19479746_b_h9_ab.jpg',
+    videoUrl: 'https://www.youtube.com/embed/I1hNAIzkQWY'
+  }
+];
+
+
+
+const continueWatching = [
+  {
+    id: 1,
+    title: 'Clickbait',
+    episode: 'Episode 3',
+    progress: 88,
+    image: 'https://occ-0-8407-90.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABXg6EvSxF2_BJErPSifQa4533oiGBO-vo_-Qw6biqJL5bsnZ8g8jxB8Kvc8ECmJGh6EQzO7rz0YNgLtzMgmxQ61emHpa0DsGlt0A.jpg?r=5a4'
+  },
+  {
+    id: 2,
+    title: 'Black Warrant',
+    episode: 'Episode 6',
+    progress: 75,
+    image: 'https://upload.wikimedia.org/wikipedia/en/0/03/Black_Warrant_Poster.jpeg'
+  },
+  {
+    id: 3,
+    title: 'Taare Zameen Par',
+    episode: '2h 44m',
+    progress: 30,
+    image: 'https://i1.sndcdn.com/artworks-000062007100-rc3z87-t500x500.jpg'
+  },
+  {
+    id: 4,
+    title: 'Interstellar',
+    episode: '2h 12m',
+    progress: 30,
+    image: 'https://i.ytimg.com/vi/jGGLtLo5f8s/maxresdefault.jpg'
+  }
+];
+
+const movies = [
+  {
+    id: 1,
+    title: 'US',
+    category: 'Thriller',
+    description: "Adelaide Wilson and her family are attacked by mysterious figures dressed in red. Upon closer inspection, the Wilsons realise that the intruders are exact lookalikes of them.",
+    image: 'https://i.ebayimg.com/images/g/FKsAAOSw8DZgGo2i/s-l400.jpg'
+  },
+  {
+    id: 2,
+    title: 'Lupin',
+    category: 'Thriller',
+    description: "A retelling of the classic French story about Arsène Lupin, the world-famous gentleman thief and master of disguise.",
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDTeJXDnidMJRNpJOHL7Q1cnWREaQCnZSEe_M71DWTqGCzl9Ebgi3M7XGWbAeBjAz0XZs&usqp=CAU'
+  },
+  {
+    id: 3,
+    title: 'Prison Break',
+    category: 'Mystery / Action',
+    description: "Michael Scofield finds himself in the Ogygia Prison in Sana'a, Yemen, seven years after his apparent death. His friends, brother and fellow escapee do everything it takes to bring him home.",
+    image: 'https://cdn-images.dzcdn.net/images/cover/7403ed293e6baf61e91f034e6fe10ccb/500x500.jpg'
+  },
+  {
+    id: 4,
+    title: 'The Watcher',
+    category: 'True Story',
+    description: "A family moves into their dream home, only to be plagued by ominous letters, strange neighbors and sinister threats.",
+    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTnalF_8atuImG7bXhgkFd05o9ILoNVUkggVjD7zxbQfobMS3Jv5NhfMJKAUAB25d6iqObu'
+  }
+];
+
+// Render functions
+function renderTrailers() {
+  const trailerList = document.getElementById('trailerList');
+  trailerList.innerHTML = trailers.map(trailer => `
+    <div class="trailer-card">
+      <img src="${trailer.image}" alt="${trailer.title}" class="trailer-image">
+      <div class="trailer-overlay">
+        <h4 class="trailer-title">${trailer.title}</h4>
+        <button class="play-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderContinueWatching() {
+  const watchingList = document.getElementById('watchingList');
+
+  const watchLinks = {
+    "Clickbait": "https://www.netflix.com/search?q=clickbait&jbv=80991754",
+    "Taare Zameen Par": "https://www.youtube.com/watch?v=9bpG4xGL2Fs",
+    "Black Warrant": "https://www.netflix.com/search?q=black%20warrant&jbv=81971071"
+  };
+
+  
+
+  watchingList.innerHTML = continueWatching.map(item => `
+    <a href="${watchLinks[item.title] || '#'}" target="_blank" class="watching-item">
+      <img src="${item.image}" alt="${item.title}" class="watching-thumbnail">
+      <div class="watching-info">
+        <h4 class="watching-title">${item.title}</h4>
+        <p class="watching-episode">${item.episode}</p>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: ${item.progress}%"></div>
+        </div>
+      </div>
+    </a>
+  `).join('');
+}
+
+
+function renderMovies() {
+  const movieGrid = document.getElementById('movieGrid');
+  movieGrid.innerHTML = movies.map(movie => `
+    <div class="movie-card">
+      <div class="movie-image-container">
+        <img src="${movie.image}" alt="${movie.title}" class="movie-image">
+        <button class="movie-play-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+      </div>
+      <div class="movie-info">
+        <span class="movie-category">${movie.category}</span>
+        <h4 class="movie-title">${movie.title}</h4>
+        <p class="movie-description">${movie.description}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  renderTrailers();
+  renderContinueWatching();
+  renderMovies();
+
+  // Add hover animations
+  document.querySelectorAll('.movie-card, .trailer-card, .watching-item').forEach(element => {
+    element.addEventListener('mouseenter', () => {
+      element.style.transform = 'scale(1.05)';
+    });
+    element.addEventListener('mouseleave', () => {
+      element.style.transform = 'scale(1)';
+    });
+  });
+
+  // Add button animations
+  document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('mouseenter', () => {
+      button.style.transform = 'scale(1.1)';
+    });
+    button.addEventListener('mouseleave', () => {
+      button.style.transform = 'scale(1)';
+    });
+    button.addEventListener('mousedown', () => {
+      button.style.transform = 'scale(0.95)';
+    });
+    button.addEventListener('mouseup', () => {
+      button.style.transform = 'scale(1.1)';
+    });
+  });
+});
+  </script>
+</body>
+</html>
